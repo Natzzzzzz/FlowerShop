@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "520038598231",
+    "project_id": "flowershop-d1537",
+    "storage_bucket": "flowershop-d1537.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520038598231:android:03739967dfecef5f9e8512",
+        "android_client_info": {
+          "package_name": "com.example.flower_delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520038598231-5b0nmvorrkq30gd5km1dtm7949rb1t5a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flower_delivery",
+            "certificate_hash": "a5056c02f3fdbe27a31f3f8ac6694131b16aa8db"
+          }
+        },
+        {
+          "client_id": "520038598231-af72nirkthg6gvvlu004vgs79shabkvi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsmVRQI95e-lu2_1NFa-txCwiysHbBLsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520038598231-af72nirkthg6gvvlu004vgs79shabkvi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "520038598231-dj86dcocqrpmroilg6jogtof9in2n7iq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flowerDelivery"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
