@@ -136,12 +136,12 @@ class _SigninState extends State<Signin> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Socialbutton(
-                          image: 'assets/images/apple_logo.png',
-                          onTap: () {
-                            print('Apple');
-                          },
-                        ),
+                        // Socialbutton(
+                        //   image: 'assets/images/apple_logo.png',
+                        //   onTap: () {
+                        //     print('Apple');
+                        //   },
+                        // ),
                         Socialbutton(
                           image: 'assets/images/google_logo.png',
                           onTap: () {

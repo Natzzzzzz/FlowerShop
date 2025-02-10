@@ -2,6 +2,7 @@ import 'package:flower_delivery/features/onBoarding/bloc/onBoarding_cubit.dart';
 import 'package:flower_delivery/features/onBoarding/bloc/onBoarding_event.dart';
 import 'package:flower_delivery/features/onBoarding/bloc/onBoarding_state.dart';
 import 'package:flower_delivery/features/signIn/signIn.dart';
+import 'package:flower_delivery/features/signUp/signUp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -59,11 +60,11 @@ class OnboardingPage extends StatelessWidget {
                           children: [
                             ElevatedButton(
                               onPressed: () async {
-                                final prefs = await SharedPreferences.getInstance();
-                                prefs.setBool('showHome', true);
+                                // final prefs = await SharedPreferences.getInstance();
+                                // prefs.setBool('showHome', true);
 
                                 Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(builder: (context) => HomePage()),
+                                  MaterialPageRoute(builder: (context) => SignUp()),
                                 );
                               },
                               style: ElevatedButton.styleFrom(

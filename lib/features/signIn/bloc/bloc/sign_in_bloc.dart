@@ -9,15 +9,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final GoogleSignIn _googleSignIn;
 
   SignInBloc(this._googleSignIn) : super(Unauthenticated()) {
-    on<AppStarted>((event, emit) async {
-      // Kiểm tra nếu người dùng đã đăng nhập
-      final currentUser = _googleSignIn.currentUser;
-      if (currentUser != null) {
-        emit(Authenticated(currentUser.email));
-      } else {
-        emit(Unauthenticated());
-      }
-    });
 
     on<SignInWithGoogle>((event, emit) async {
       emit(Authenticating());
