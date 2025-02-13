@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flower_delivery/features/signIn/bloc/bloc/sign_in_bloc.dart';
-import 'package:flower_delivery/features/signIn/bloc/bloc/sign_in_event.dart';
-import 'package:flower_delivery/features/signIn/bloc/bloc/sign_in_state.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flower_delivery/features/signIn/bloc/sign_in_bloc.dart';
+import 'package:flower_delivery/features/signIn/bloc/sign_in_event.dart';
+import 'package:flower_delivery/features/signIn/bloc/sign_in_state.dart';
 import 'package:flower_delivery/features/signIn/widget/socialButton.dart';
 import 'package:flower_delivery/features/signUp/signUp.dart';
+import 'package:flower_delivery/features/signUp/verifyEmail.dart';
 import 'package:flower_delivery/home.dart';
 import 'package:flower_delivery/misc/color.dart';
 import 'package:flutter/material.dart';
@@ -12,31 +14,49 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class Signin extends StatefulWidget {
-  const Signin({super.key});
+class SignIn extends StatefulWidget {
+  const SignIn({super.key});
 
   @override
-  State<Signin> createState() => _SigninState();
+  State<SignIn> createState() => _SignInState();
 }
 
-class _SigninState extends State<Signin> {
+class _SignInState extends State<SignIn> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size sz = MediaQuery.of(context).size;
     return BlocProvider(
-      create: (context) => SignInBloc(GoogleSignIn()),
+      create: (context) => SignInBloc(FirebaseAuth.instance, GoogleSignIn()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: BlocBuilder<SignInBloc, SignInState>(
+        body: BlocConsumer<SignInBloc, SignInState>(
+          listener: (context, state) {
+            if (state is Authenticated) {
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
+            } else if (state is EmailNotVerified) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => VerifyEmail()));
+            } else if (state is AuthenticationError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text(state.message), backgroundColor: Colors.red),
+              );
+            }
+          },
           builder: (context, state) {
-            if (state is Unauthenticated) {
+            if (state is Authenticating) {
+              return const Center(child: CircularProgressIndicator());
+            }
             return SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                padding: EdgeInsets.symmetric(horizontal: 24.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 40),
                     const Text(
                       'Sign In',
                       style: TextStyle(
@@ -57,6 +77,7 @@ class _SigninState extends State<Signin> {
                     ),
                     SizedBox(height: sz.height * 0.1),
                     TextField(
+                      controller: emailController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.email,
@@ -72,6 +93,7 @@ class _SigninState extends State<Signin> {
                     SizedBox(height: sz.height * 0.04),
                     TextField(
                       obscureText: true,
+                      controller: passwordController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.lock,
@@ -104,7 +126,14 @@ class _SigninState extends State<Signin> {
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<SignInBloc>().add(
+                              SignInWithEmailPassword(
+                                email: emailController.text.trim(),
+                                password: passwordController.text.trim(),
+                              ),
+                            );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.mainColor,
                         foregroundColor: Colors.white,
@@ -136,12 +165,6 @@ class _SigninState extends State<Signin> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        // Socialbutton(
-                        //   image: 'assets/images/apple_logo.png',
-                        //   onTap: () {
-                        //     print('Apple');
-                        //   },
-                        // ),
                         Socialbutton(
                           image: 'assets/images/google_logo.png',
                           onTap: () {
@@ -175,22 +198,6 @@ class _SigninState extends State<Signin> {
                 ),
               ),
             );
-            }
-            else if (state is Authenticating) {
-              return const Center(child: CircularProgressIndicator());
-          } else if (state is Authenticated) {
-             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage()
-                ),
-              );
-            });
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            return const Center(child: Text('Error'));
-          }
           },
         ),
       ),

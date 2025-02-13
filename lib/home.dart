@@ -22,6 +22,7 @@ class HomePage extends StatelessWidget {
                   builder: (context) => OnboardingPage(),
                 ),
               );
+              
             },
             icon: const Icon(Icons.logout),
           ),

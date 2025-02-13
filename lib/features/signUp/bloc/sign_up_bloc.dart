@@ -17,19 +17,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       try {
         emit(SignUpLoading());
 
-        // if (event.email == "") {
-        //   throw Exception("Email must not be empty");
-        // }
-        // if (event.password == "") {
-        //   throw Exception("Password must not be empty");
-        // }
-        // if (event.confirmPassword == "") {
-        //   throw Exception("Confirm Password must not be empty");
-        // }
-        // if (event.password.length < 6) {
-        //   throw Exception("Password must be at least 6 characters long");
-        // }
-
         // Sign-up with Firebase Auth
         if (event.password == event.confirmPassword){
           await FirebaseAuth.instance.createUserWithEmailAndPassword(

@@ -82,7 +82,7 @@ class OnboardingPage extends StatelessWidget {
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(builder: (context) => Signin()),
+                                  MaterialPageRoute(builder: (context) => SignIn()),
                                 );
                                   },
                                   child: Text(
